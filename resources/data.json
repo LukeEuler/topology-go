@@ -1,0 +1,79 @@
+[
+  {
+    "id": 0,
+    "name": "pc1",
+    "tagMap": {
+      "user": "luke",
+      "role": "personal"
+    }
+  },
+  {
+    "id": 1,
+    "name": "pc2",
+    "tagMap": {
+      "user": "luke",
+      "role": "personal"
+    }
+  },
+  {
+    "id": 2,
+    "name": "main",
+    "tagMap": {
+      "user": "luke",
+      "role": "dev"
+    },
+    "tagList": [
+      "up"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "dev",
+    "tagMap": {
+      "user": "luke",
+      "role": "dev"
+    }
+  },
+  {
+    "id": 4,
+    "name": "win7"
+  },
+  {
+    "id": 5,
+    "name": "cym-win7",
+    "tagMap": {
+      "role": "test"
+    }
+  },
+  {
+    "id": 6,
+    "name": "wuzhishan",
+    "tagMap": {
+      "user": "ci",
+      "role": "swarm"
+    }
+  },
+  {
+    "id": 7,
+    "name": "nantianmen",
+    "tagMap": {
+      "user": "ci",
+      "role": "swarm"
+    }
+  },
+  {
+    "id": 8,
+    "name": "lyr",
+    "tagMap": {
+      "user": "lu",
+      "role": "personal"
+    }
+  },
+  {
+    "id": 9,
+    "name": "217",
+    "tagMap": {
+      "system": "window"
+    }
+  }
+]

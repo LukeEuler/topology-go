@@ -1,0 +1,6 @@
+package: topology-go
+import:
+- package: github.com/deckarep/golang-set
+  version: ~1.6.0
+- package: github.com/emirpasic/gods
+  version: ~1.9.0

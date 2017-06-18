@@ -1,0 +1,8 @@
+# ide
+.idea
+
+# External packages folder
+vendor/
+
+# Compiled executables
+topology-go
