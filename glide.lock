@@ -1,8 +1,17 @@
-hash: f294946f074b6252f0913943cb24b815c3a265ba5e2ac06fe0f5e00e9817e8af
-updated: 2017-06-18T15:06:22.158887565+08:00
+hash: d698b9f482102fd76e1abb64f069c63e3887b6cdd6f074aa8ad988d72a2ebea9
+updated: 2017-06-28T13:33:43.111539055+08:00
 imports:
 - name: github.com/deckarep/golang-set
   version: fc8930a5e645572ee00bf66358ed3414f3c13b90
 - name: github.com/emirpasic/gods
   version: f6c17b524822278a87e3b3bd809fec33b51f5b46
+  subpackages:
+  - containers
+  - lists
+  - lists/singlylinkedlist
+  - stacks
+  - stacks/linkedliststack
+  - utils
+- name: github.com/stretchr/testify
+  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
 testImports: []

@@ -2,16 +2,36 @@ package core
 
 // BaseData represent the basic data for drawing
 type BaseData struct {
-	ID      int64
-	name    string
-	TagMap  map[string]string
-	TagList []string
+	ID      int64  `json:"id"`
+	Name    string `json:"name"`
+	TagMap  map[string]string `json:"tagMap"`
+	TagList []string `json:"tagList"`
 
 	RelativeX int
 	RelativeY int
 
 	absoluteX int
 	absoluteY int
+}
+
+func CompleteBaseData(data []BaseData) []BaseData {
+	result := make([]BaseData, 0, len(data))
+
+	for _, baseData := range data {
+		if len(baseData.Name) == 0 {
+			continue
+		}
+		if baseData.TagMap == nil {
+			baseData.TagMap = map[string]string{}
+		}
+		if baseData.TagList == nil {
+			baseData.TagList = []string{}
+		}
+
+		result = append(result, baseData)
+	}
+
+	return result
 }
 
 // ByID support BaseData by ID
