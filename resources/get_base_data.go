@@ -10,8 +10,8 @@ import (
 	"topology-go/core"
 )
 
-func GetBaseData() []core.BaseData {
-	raw, err := ioutil.ReadFile("./data.json")
+func GetBaseData(path string) []core.BaseData {
+	raw, err := ioutil.ReadFile(path)
 
 	if err != nil {
 		fmt.Println(err.Error())

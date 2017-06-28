@@ -7,6 +7,6 @@ import (
 )
 
 func TestGetBaseData(t *testing.T) {
-	data := GetBaseData()
+	data := GetBaseData("./data.json")
 	assert.NotEmpty(t, data)
 }

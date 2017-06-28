@@ -7,13 +7,14 @@ import (
 )
 
 // Filter remove the data without special tags
-func Filter(tagList []string, tagMap map[string]string, dataArray []core.BaseData) {
+func Filter(tagList []string, tagMap map[string]string, dataArray []core.BaseData) []core.BaseData {
 	if len(tagList) != 0 {
 		dataArray = filterTagList(tagList, dataArray)
 	}
 	if tagMap != nil && len(tagMap) != 0 {
 		dataArray = filterTagMap(tagMap, dataArray)
 	}
+	return dataArray
 }
 
 func filterTagList(tagList []string, dataArray []core.BaseData) (result []core.BaseData) {
