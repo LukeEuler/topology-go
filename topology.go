@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+
 	"topology-go/core"
 	"topology-go/operators"
 	"topology-go/resources"
@@ -19,10 +21,14 @@ func main() {
 		EmptyValueName:   "Not Found",
 	}
 	box, err := operators.RuleWithConfig(data, conf)
-	if err == nil {
-		println(box.Key)
-	} else {
+	if err != nil {
 		println(err.Error())
+		return
 	}
-
+	bb, err := json.Marshal(box)
+	if err != nil {
+		println(err.Error())
+		return
+	}
+	println(string(bb))
 }

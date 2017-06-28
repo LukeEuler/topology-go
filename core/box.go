@@ -20,8 +20,8 @@ type Box struct {
 	positionX int
 	positionY int
 
-	dataArray        []BaseData
-	boxes            []Box
+	DataArray        []BaseData `json:"dataArray,omitempty"`
+	Boxes            []Box `json:"boxes,omitempty"`
 	heightWidthRatio float64
 	records          *linkedliststack.Stack
 
@@ -34,7 +34,7 @@ func NewBaseBox(hwr float64, dataArray []BaseData) (Box, error) {
 	sort.Sort(ByID(dataArray))
 	box := Box{
 		heightWidthRatio: hwr,
-		dataArray:        dataArray,
+		DataArray:        dataArray,
 	}
 	err := box.shape()
 	if err != nil {
@@ -52,7 +52,7 @@ func NewAdvanceBox(hwr float64, boxes []Box) (Box, error) {
 	sort.Sort(byBoxSize(boxes))
 	box := Box{
 		heightWidthRatio: hwr,
-		boxes:            boxes,
+		Boxes:            boxes,
 	}
 	box.estimateSize()
 	box.adaptBox()
@@ -71,7 +71,7 @@ func (s byBoxSize) Less(i, j int) bool {
 }
 
 func (b *Box) shape() error {
-	size := len(b.dataArray)
+	size := len(b.DataArray)
 	if size == 0 {
 		return errors.New("Empty Data")
 	}
@@ -83,10 +83,10 @@ func (b *Box) shape() error {
 }
 
 func (b *Box) setDataRelativePosition() error {
-	if len(b.dataArray) > b.width*b.height {
+	if len(b.DataArray) > b.width*b.height {
 		return errors.New("Data size error")
 	}
-	for index, baseData := range b.dataArray {
+	for index, baseData := range b.DataArray {
 		baseData.RelativeX = index % b.width
 		baseData.RelativeY = index / b.width
 	}
@@ -95,7 +95,7 @@ func (b *Box) setDataRelativePosition() error {
 
 func (b *Box) estimateSize() {
 	var estimateWeights float64
-	for _, box := range b.boxes {
+	for _, box := range b.Boxes {
 		estimateWeights += float64(box.width * box.height)
 	}
 
@@ -117,7 +117,7 @@ func (b *Box) initRecords() {
 func (b *Box) adaptBox() {
 	b.initRecords()
 	check := true
-	for _, box := range b.boxes {
+	for _, box := range b.Boxes {
 		check = b.addBox(box)
 		if !check {
 			break
