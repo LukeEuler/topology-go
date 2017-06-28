@@ -39,6 +39,17 @@ repos:
 - original: https://golang.org/x/tools
   repo: https://github.com/golang/tools
   vcs: git
+- original: https://gopkg.in/yaml.v2
+  repo: https://github.com/go-yaml/yaml
+  vcs: git
+- original: https://golang.org/x/text/transform
+  repo: https://github.com/golang/text
+  vcs: git
+  base: golang.org/x/text
+- original: https://golang.org/x/text/unicode/norm
+  repo: https://github.com/golang/text
+  vcs: git
+  base: golang.org/x/text
 ```
 
 ## run
@@ -52,6 +63,8 @@ go run topology-go.go
 ```bash
 # run all test
 glide nv | xargs go test
+# show coverage
+glide nv | xargs go test -cover
 # for more information
 glide nv | xargs go test -v
 ```
