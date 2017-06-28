@@ -7,11 +7,11 @@ type BaseData struct {
 	TagMap  map[string]string `json:"tagMap"`
 	TagList []string `json:"tagList"`
 
-	RelativeX int
-	RelativeY int
+	RelativeX int `json:"relative_x"`
+	RelativeY int `json:"relative_y"`
 
-	absoluteX int
-	absoluteY int
+	AbsoluteX int `json:"absolute_x"`
+	AbsoluteY int `json:"absolute_y"`
 }
 
 func CompleteBaseData(data []BaseData) []BaseData {
