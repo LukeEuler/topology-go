@@ -1,4 +1,4 @@
-package data
+package core
 
 // BaseData represent the basic data for drawing
 type BaseData struct {

@@ -1,13 +1,13 @@
 package operators
 
 import (
-	"topology-go/data"
+	"topology-go/core"
 
 	set "github.com/deckarep/golang-set"
 )
 
 // Filter remove the data without special tags
-func Filter(tagList []string, tagMap map[string]string, dataArray []data.BaseData) {
+func Filter(tagList []string, tagMap map[string]string, dataArray []core.BaseData) {
 	if len(tagList) != 0 {
 		dataArray = filterTagList(tagList, dataArray)
 	}
@@ -16,7 +16,7 @@ func Filter(tagList []string, tagMap map[string]string, dataArray []data.BaseDat
 	}
 }
 
-func filterTagList(tagList []string, dataArray []data.BaseData) (result []data.BaseData) {
+func filterTagList(tagList []string, dataArray []core.BaseData) (result []core.BaseData) {
 	filterTagSet := makeSet(tagList)
 	for _, baseData := range dataArray {
 		dataTagSet := makeSet(baseData.TagList)
@@ -36,7 +36,7 @@ func makeSet(strList []string) set.Set {
 	return result
 }
 
-func filterTagMap(tagMap map[string]string, dataArray []data.BaseData) (result []data.BaseData) {
+func filterTagMap(tagMap map[string]string, dataArray []core.BaseData) (result []core.BaseData) {
 	for _, baseData := range dataArray {
 		if mapContains(tagMap, baseData.TagMap) {
 			result = append(result, baseData)

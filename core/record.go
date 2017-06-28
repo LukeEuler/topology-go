@@ -1,4 +1,4 @@
-package data
+package core
 
 // Record represent a point where a new box may be placed
 type Record struct {

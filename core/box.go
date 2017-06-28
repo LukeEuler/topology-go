@@ -4,7 +4,6 @@ import (
 	"errors"
 	"math"
 	"sort"
-	"topology-go/data"
 
 	"github.com/emirpasic/gods/stacks/linkedliststack"
 )
@@ -21,7 +20,7 @@ type Box struct {
 	positionX int
 	positionY int
 
-	dataArray        []data.BaseData
+	dataArray        []BaseData
 	boxes            []Box
 	heightWidthRatio float64
 	records          *linkedliststack.Stack
@@ -31,8 +30,8 @@ type Box struct {
 }
 
 // NewBaseBox make box which only contains data.BaseData
-func NewBaseBox(hwr float64, dataArray []data.BaseData) (Box, error) {
-	sort.Sort(data.ByID(dataArray))
+func NewBaseBox(hwr float64, dataArray []BaseData) (Box, error) {
+	sort.Sort(ByID(dataArray))
 	box := Box{
 		heightWidthRatio: hwr,
 		dataArray:        dataArray,
@@ -111,7 +110,7 @@ func (b *Box) estimateSize() {
 
 func (b *Box) initRecords() {
 	b.records = linkedliststack.New()
-	record := data.NewRecord(0, 0, b.height)
+	record := NewRecord(0, 0, b.height)
 	b.records.Push(record)
 }
 
@@ -136,15 +135,15 @@ func (b *Box) addBox(box Box) bool {
 	if !ok {
 		return false
 	}
-	if b.enoughSpace(record.(data.Record), box) {
-		b.fillBox(record.(data.Record), box)
+	if b.enoughSpace(record.(Record), box) {
+		b.fillBox(record.(Record), box)
 	} else {
 		b.addBox(box)
 	}
 	return true
 }
 
-func (b *Box) enoughSpace(record data.Record, box Box) bool {
+func (b *Box) enoughSpace(record Record, box Box) bool {
 	if record.PositionX+box.height > b.height {
 		return false
 	}
@@ -157,9 +156,9 @@ func (b *Box) enoughSpace(record data.Record, box Box) bool {
 	return true
 }
 
-func (b *Box) fillBox(record data.Record, box Box) {
-	newRecord1 := data.NewRecord(record.PositionX+box.height+shortGap, record.PositionY, record.LimitHeight)
-	newRecord2 := data.NewRecord(record.PositionX, record.PositionY+box.width+shortGap, record.PositionX+box.height+shortGap)
+func (b *Box) fillBox(record Record, box Box) {
+	newRecord1 := NewRecord(record.PositionX+box.height+shortGap, record.PositionY, record.LimitHeight)
+	newRecord2 := NewRecord(record.PositionX, record.PositionY+box.width+shortGap, record.PositionX+box.height+shortGap)
 	if b.newRecordCheck(newRecord1) {
 		b.records.Push(newRecord1)
 	}
@@ -168,7 +167,7 @@ func (b *Box) fillBox(record data.Record, box Box) {
 	}
 }
 
-func (b *Box) newRecordCheck(record data.Record) bool {
+func (b *Box) newRecordCheck(record Record) bool {
 	if record.PositionX >= b.height {
 		return false
 	}
