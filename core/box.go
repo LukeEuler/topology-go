@@ -20,8 +20,8 @@ type Box struct {
 	PositionX int `json:"position_x"`
 	PositionY int `json:"position_y"`
 
-	DataArray        []BaseData `json:"dataArray,omitempty"`
-	Boxes            []Box `json:"boxes,omitempty"`
+	DataArray        []*BaseData `json:"dataArray,omitempty"`
+	Boxes            []*Box `json:"boxes,omitempty"`
 	heightWidthRatio float64
 	records          *linkedliststack.Stack
 
@@ -30,9 +30,9 @@ type Box struct {
 }
 
 // NewBaseBox make box which only contains data.BaseData
-func NewBaseBox(hwr float64, dataArray []BaseData) (Box, error) {
+func NewBaseBox(hwr float64, dataArray []*BaseData) (*Box, error) {
 	sort.Sort(ByID(dataArray))
-	box := Box{
+	box := &Box{
 		heightWidthRatio: hwr,
 		DataArray:        dataArray,
 	}
@@ -48,9 +48,9 @@ func NewBaseBox(hwr float64, dataArray []BaseData) (Box, error) {
 }
 
 // NewAdvanceBox make box which only contains data.BaseData
-func NewAdvanceBox(hwr float64, boxes []Box) (Box, error) {
+func NewAdvanceBox(hwr float64, boxes []*Box) (*Box, error) {
 	sort.Sort(byBoxSize(boxes))
-	box := Box{
+	box := &Box{
 		heightWidthRatio: hwr,
 		Boxes:            boxes,
 	}
@@ -59,7 +59,7 @@ func NewAdvanceBox(hwr float64, boxes []Box) (Box, error) {
 	return box, nil
 }
 
-type byBoxSize []Box
+type byBoxSize []*Box
 
 func (s byBoxSize) Len() int      { return len(s) }
 func (s byBoxSize) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
@@ -87,8 +87,8 @@ func (b *Box) setDataRelativePosition() error {
 		return errors.New("Data size error")
 	}
 	for index, baseData := range b.DataArray {
-		baseData.RelativeX = index % b.Width
-		baseData.RelativeY = index / b.Width
+		baseData.RelativeX = index / b.Width
+		baseData.RelativeY = index % b.Width
 	}
 	return nil
 }
@@ -130,13 +130,13 @@ func (b *Box) adaptBox() {
 	b.adaptBox()
 }
 
-func (b *Box) addBox(box Box) bool {
+func (b *Box) addBox(box *Box) bool {
 	record, ok := b.records.Pop()
 	if !ok {
 		return false
 	}
-	if b.enoughSpace(record.(Record), box) {
-		b.fillBox(record.(Record), box)
+	if b.enoughSpace(record.(Record), *box) {
+		b.fillBox(record.(Record), *box)
 	} else {
 		b.addBox(box)
 	}

@@ -14,8 +14,8 @@ type BaseData struct {
 	AbsoluteY int `json:"absolute_y"`
 }
 
-func CompleteBaseData(data []BaseData) []BaseData {
-	result := make([]BaseData, 0, len(data))
+func CompleteBaseData(data []*BaseData) []*BaseData {
+	result := make([]*BaseData, 0, len(data))
 
 	for _, baseData := range data {
 		if len(baseData.Name) == 0 {
@@ -35,7 +35,7 @@ func CompleteBaseData(data []BaseData) []BaseData {
 }
 
 // ByID support BaseData by ID
-type ByID []BaseData
+type ByID []*BaseData
 
 func (s ByID) Len() int      { return len(s) }
 func (s ByID) Swap(i, j int) { s[i], s[j] = s[j], s[i] }

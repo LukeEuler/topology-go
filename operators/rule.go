@@ -21,11 +21,11 @@ func defaultRuleConfig() RuleConfig {
 	}
 }
 
-func Rule(dataArray []core.BaseData) (core.Box, error) {
+func Rule(dataArray []*core.BaseData) (*core.Box, error) {
 	return RuleWithConfig(dataArray, defaultRuleConfig())
 }
 
-func RuleWithConfig(dataArray []core.BaseData, conf RuleConfig) (result core.Box, err error) {
+func RuleWithConfig(dataArray []*core.BaseData, conf RuleConfig) (result *core.Box, err error) {
 	if dataArray == nil || len(dataArray) == 0 {
 		return result, errors.New("empty data")
 	}
@@ -41,13 +41,13 @@ func RuleWithConfig(dataArray []core.BaseData, conf RuleConfig) (result core.Box
 	return rule(dataArray, conf)
 }
 
-func rule(dataArray []core.BaseData, conf RuleConfig) (result core.Box, err error) {
+func rule(dataArray []*core.BaseData, conf RuleConfig) (result *core.Box, err error) {
 	// TODO too complicate, no test
 	if len(conf.Tag) == 0 {
 		return core.NewBaseBox(conf.HeightWidthRatio, dataArray)
 	} else {
 		tag := conf.Tag[0]
-		midResult := make(map[string][]core.BaseData)
+		midResult := make(map[string][]*core.BaseData)
 		for _, dataPoint := range dataArray {
 			tagValue, ok := dataPoint.TagMap[tag]
 			if conf.ShowEmptyValue {
@@ -56,7 +56,7 @@ func rule(dataArray []core.BaseData, conf RuleConfig) (result core.Box, err erro
 				}
 				_, okMid := midResult[tagValue]
 				if !okMid {
-					midResult[tagValue] = []core.BaseData{dataPoint}
+					midResult[tagValue] = []*core.BaseData{dataPoint}
 				} else {
 					midResult[tagValue] = append(midResult[tagValue], dataPoint)
 				}
@@ -66,7 +66,7 @@ func rule(dataArray []core.BaseData, conf RuleConfig) (result core.Box, err erro
 				}
 				_, okMid := midResult[tagValue]
 				if !okMid {
-					midResult[tagValue] = []core.BaseData{dataPoint}
+					midResult[tagValue] = []*core.BaseData{dataPoint}
 				} else {
 					midResult[tagValue] = append(midResult[tagValue], dataPoint)
 				}
@@ -74,7 +74,7 @@ func rule(dataArray []core.BaseData, conf RuleConfig) (result core.Box, err erro
 		}
 
 		conf.Tag = conf.Tag[1:]
-		boxes := make([]core.Box, 0)
+		boxes := make([]*core.Box, 0)
 		for tagValue, subDataArray := range midResult {
 			box, err := rule(subDataArray, conf)
 			if err != nil {

@@ -7,7 +7,7 @@ import (
 )
 
 // Filter remove the data without special tags
-func Filter(tagList []string, tagMap map[string]string, dataArray []core.BaseData) []core.BaseData {
+func Filter(tagList []string, tagMap map[string]string, dataArray []*core.BaseData) []*core.BaseData {
 	if len(tagList) != 0 {
 		dataArray = filterTagList(tagList, dataArray)
 	}
@@ -17,7 +17,7 @@ func Filter(tagList []string, tagMap map[string]string, dataArray []core.BaseDat
 	return dataArray
 }
 
-func filterTagList(tagList []string, dataArray []core.BaseData) (result []core.BaseData) {
+func filterTagList(tagList []string, dataArray []*core.BaseData) (result []*core.BaseData) {
 	filterTagSet := makeSet(tagList)
 	for _, baseData := range dataArray {
 		dataTagSet := makeSet(baseData.TagList)
@@ -37,7 +37,7 @@ func makeSet(strList []string) set.Set {
 	return result
 }
 
-func filterTagMap(tagMap map[string]string, dataArray []core.BaseData) (result []core.BaseData) {
+func filterTagMap(tagMap map[string]string, dataArray []*core.BaseData) (result []*core.BaseData) {
 	for _, baseData := range dataArray {
 		if mapContains(tagMap, baseData.TagMap) {
 			result = append(result, baseData)
