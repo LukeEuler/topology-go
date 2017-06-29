@@ -9,7 +9,6 @@ type BaseData struct {
 
 	RelativeX int `json:"relative_x"`
 	RelativeY int `json:"relative_y"`
-
 	AbsoluteX int `json:"absolute_x"`
 	AbsoluteY int `json:"absolute_y"`
 }

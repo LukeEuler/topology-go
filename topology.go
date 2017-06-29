@@ -25,6 +25,7 @@ func main() {
 		println(err.Error())
 		return
 	}
+	box.SetPosition()
 	bb, err := json.Marshal(box)
 	if err != nil {
 		println(err.Error())

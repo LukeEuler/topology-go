@@ -17,10 +17,12 @@ type Box struct {
 	Width  int `json:"width"`
 	Height int `json:"height"`
 
-	PositionX int `json:"position_x"`
-	PositionY int `json:"position_y"`
+	RelativeX int `json:"relative_x"`
+	RelativeY int `json:"relative_y"`
+	AbsoluteX int `json:"absolute_x"`
+	AbsoluteY int `json:"absolute_y"`
 
-	DataArray        []*BaseData `json:"dataArray,omitempty"`
+	DataPoints       []*BaseData `json:"dataPoints,omitempty"`
 	Boxes            []*Box `json:"boxes,omitempty"`
 	heightWidthRatio float64
 	records          *linkedliststack.Stack
@@ -29,12 +31,12 @@ type Box struct {
 	Value string `json:"tagValue,omitempty"`
 }
 
-// NewBaseBox make box which only contains data.BaseData
+// NewBaseBox make b which only contains data.BaseData
 func NewBaseBox(hwr float64, dataArray []*BaseData) (*Box, error) {
 	sort.Sort(ByID(dataArray))
 	box := &Box{
 		heightWidthRatio: hwr,
-		DataArray:        dataArray,
+		DataPoints:       dataArray,
 	}
 	err := box.shape()
 	if err != nil {
@@ -47,7 +49,7 @@ func NewBaseBox(hwr float64, dataArray []*BaseData) (*Box, error) {
 	return box, nil
 }
 
-// NewAdvanceBox make box which only contains data.BaseData
+// NewAdvanceBox make b which only contains data.BaseData
 func NewAdvanceBox(hwr float64, boxes []*Box) (*Box, error) {
 	sort.Sort(byBoxSize(boxes))
 	box := &Box{
@@ -56,6 +58,7 @@ func NewAdvanceBox(hwr float64, boxes []*Box) (*Box, error) {
 	}
 	box.estimateSize()
 	box.adaptBox()
+	box.removeScrap()
 	return box, nil
 }
 
@@ -65,15 +68,23 @@ func (s byBoxSize) Len() int      { return len(s) }
 func (s byBoxSize) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
 func (s byBoxSize) Less(i, j int) bool {
 	if s[i].Width != s[j].Width {
-		return s[i].Width < s[j].Width
+		return s[i].Width > s[j].Width
 	}
-	return s[i].Height < s[j].Height
+	return s[i].Height > s[j].Height
 }
 
 func (b *Box) shape() error {
-	size := len(b.DataArray)
+	size := len(b.DataPoints)
 	if size == 0 {
 		return errors.New("Empty Data")
+	} else if size == 1 {
+		b.Width = 1
+		b.Height = 1
+		return nil
+	} else if size == 2 {
+		b.Width = 1
+		b.Height = 2
+		return nil
 	}
 	floatSize := float64(size)
 	b.Width = int(math.Ceil(math.Sqrt(floatSize)))
@@ -83,10 +94,10 @@ func (b *Box) shape() error {
 }
 
 func (b *Box) setDataRelativePosition() error {
-	if len(b.DataArray) > b.Width*b.Height {
+	if len(b.DataPoints) > b.Width*b.Height {
 		return errors.New("Data size error")
 	}
-	for index, baseData := range b.DataArray {
+	for index, baseData := range b.DataPoints {
 		baseData.RelativeX = index / b.Width
 		baseData.RelativeY = index % b.Width
 	}
@@ -135,7 +146,8 @@ func (b *Box) addBox(box *Box) bool {
 	if !ok {
 		return false
 	}
-	if b.enoughSpace(record.(Record), *box) {
+
+	if b.enoughSpace(record.(Record), box) {
 		b.fillBox(record.(Record), *box)
 	} else {
 		b.addBox(box)
@@ -143,7 +155,7 @@ func (b *Box) addBox(box *Box) bool {
 	return true
 }
 
-func (b *Box) enoughSpace(record Record, box Box) bool {
+func (b *Box) enoughSpace(record Record, box *Box) bool {
 	if record.PositionX+box.Height > b.Height {
 		return false
 	}
@@ -153,12 +165,15 @@ func (b *Box) enoughSpace(record Record, box Box) bool {
 	if record.PositionX+box.Height > record.LimitHeight {
 		return false
 	}
+
+	box.RelativeX = record.PositionX
+	box.RelativeY = record.PositionY
 	return true
 }
 
 func (b *Box) fillBox(record Record, box Box) {
 	newRecord1 := NewRecord(record.PositionX+box.Height+narrowGap, record.PositionY, record.LimitHeight)
-	newRecord2 := NewRecord(record.PositionX, record.PositionY+box.Width+narrowGap, record.PositionX+box.Height+narrowGap)
+	newRecord2 := NewRecord(record.PositionX, record.PositionY+box.Width+narrowGap, record.PositionX+box.Height)
 	if b.newRecordCheck(newRecord1) {
 		b.records.Push(newRecord1)
 	}
@@ -172,6 +187,9 @@ func (b *Box) newRecordCheck(record Record) bool {
 		return false
 	}
 	if record.PositionY >= b.Width {
+		return false
+	}
+	if record.PositionX >= record.LimitHeight {
 		return false
 	}
 	return true
@@ -198,4 +216,22 @@ func (b *Box) extendBox() {
 	}
 	b.Width = w
 	b.Height = h
+}
+
+func (b *Box) removeScrap() {
+	var minWidth int
+	var minHeight int
+	for _, box := range b.Boxes {
+		minHeight = maxInt(minHeight, box.Height+box.RelativeX)
+		minWidth = maxInt(minWidth, box.Width+box.RelativeY)
+	}
+	b.Width = minWidth
+	b.Height = minHeight
+}
+
+func maxInt(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }

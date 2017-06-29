@@ -1,6 +1,6 @@
 package core
 
-// Record represent a point where a new box may be placed
+// Record represent a point where a new b may be placed
 type Record struct {
 	PositionX   int
 	PositionY   int
