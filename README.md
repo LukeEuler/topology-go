@@ -9,6 +9,14 @@ use glide for dependence manage
 
 install [glide](https://github.com/Masterminds/glide)
 
+## format
+```bash
+# see which code needs format
+find . -path ./vendor -prune -o -name '*.go' -print | xargs gofmt -d | grep '^'
+# format
+glide nv | xargs go fmt
+```
+
 ## before run
 add $HOME/.glide/mirrors.yaml
 and add the settings below(unless you can connect to https://golang.org)

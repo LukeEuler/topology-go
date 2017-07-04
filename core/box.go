@@ -23,7 +23,7 @@ type Box struct {
 	AbsoluteY int `json:"absolute_y"`
 
 	DataPoints       []*BaseData `json:"dataPoints,omitempty"`
-	Boxes            []*Box `json:"boxes,omitempty"`
+	Boxes            []*Box      `json:"boxes,omitempty"`
 	heightWidthRatio float64
 	records          *linkedliststack.Stack
 

@@ -2,10 +2,10 @@ package core
 
 // BaseData represent the basic data for drawing
 type BaseData struct {
-	ID      int64  `json:"id"`
-	Name    string `json:"name"`
+	ID      int64             `json:"id"`
+	Name    string            `json:"name"`
 	TagMap  map[string]string `json:"tagMap"`
-	TagList []string `json:"tagList"`
+	TagList []string          `json:"tagList"`
 
 	RelativeX int `json:"relative_x"`
 	RelativeY int `json:"relative_y"`
