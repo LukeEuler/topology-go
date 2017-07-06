@@ -25,6 +25,10 @@ repos:
 - original: https://golang.org/x/crypto
   repo: https://github.com/golang/crypto
   vcs: git
+- original: https://golang.org/x/crypto/acme/autocert
+  repo: https://github.com/golang/crypto
+  vcs: git
+  base: golang.org/x/crypto
 - original: https://golang.org/x/image
   repo: https://github.com/golang/image
   vcs: git
