@@ -2,8 +2,7 @@ package operators
 
 import (
 	"errors"
-
-	"topology-go/core"
+	"github.com/LukeEuler/topology-go/core"
 )
 
 type RuleConfig struct {

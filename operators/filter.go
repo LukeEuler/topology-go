@@ -1,9 +1,8 @@
 package operators
 
 import (
-	"topology-go/core"
-
 	set "github.com/deckarep/golang-set"
+	"github.com/LukeEuler/topology-go/core"
 )
 
 // Filter remove the data without special tags

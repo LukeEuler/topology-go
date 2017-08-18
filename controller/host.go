@@ -1,14 +1,13 @@
 package controller
 
 import (
-	"topology-go/config"
-	"topology-go/core"
-	"topology-go/entity/host"
-	"topology-go/operators"
-	"topology-go/resources"
-
 	"net/http"
 
+	"github.com/LukeEuler/topology-go/config"
+	"github.com/LukeEuler/topology-go/core"
+	"github.com/LukeEuler/topology-go/entity/host"
+	"github.com/LukeEuler/topology-go/operators"
+	"github.com/LukeEuler/topology-go/resources"
 	"github.com/labstack/echo"
 )
 

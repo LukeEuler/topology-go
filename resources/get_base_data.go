@@ -1,13 +1,12 @@
 package resources
 
 import (
-	"io/ioutil"
-
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 
-	"topology-go/core"
+	"github.com/LukeEuler/topology-go/core"
 )
 
 func GetBaseData(path string) []*core.BaseData {

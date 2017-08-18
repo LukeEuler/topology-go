@@ -1,10 +1,9 @@
 package main
 
 import (
-	"topology-go/config"
-	"topology-go/controller"
-
 	"github.com/labstack/echo"
+	"github.com/LukeEuler/topology-go/config"
+	"github.com/LukeEuler/topology-go/controller"
 )
 
 func main() {

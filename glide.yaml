@@ -1,4 +1,4 @@
-package: topology-go
+package: github.com/LukeEuler/topology-go
 import:
 - package: github.com/deckarep/golang-set
   version: ~1.6.0
